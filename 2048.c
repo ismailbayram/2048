@@ -191,11 +191,27 @@ void reset_mat(int mat[SIZE][SIZE], int *score, int *max_score)
   print_mat(mat, score, max_score);
 }
 
+int check_mat(int mat[SIZE][SIZE])
+{
+  int i, j, t = 0;
+  for (i = 0; i < SIZE; i++)
+  {
+    for (j = 0; j < SIZE; j++)
+    {
+      if (mat[i][j] == 2048)
+      {
+        t += 1;
+      }
+    }
+  }
+  return t;
+}
+
 void end_game(int mat[SIZE][SIZE], int *max_score, int *play)
 {
   *play = 0;
   printf("************\n");
-  printf("OYUNU SONLANDIRDINIZ!\n");
+  printf("OYUNU SONLANDI!\n");
   printf("En Yuksek Puan : %d\n", *max_score);
   printf("Tesekkurler, ismail bayram 2018\n");
   printf("************\n");
@@ -206,7 +222,7 @@ int main()
   srand(time(NULL));
   char input;
   static int mat[SIZE][SIZE];
-  int *score = malloc(sizeof(int)), *max_score = malloc(sizeof(int)), *play = malloc(sizeof(int));
+  int *score = malloc(sizeof(int)), *max_score = malloc(sizeof(int)), *play = malloc(sizeof(int)), react_2048 = 0;
   *score = 0;
   *max_score = 0;
 
@@ -224,6 +240,12 @@ int main()
   *play = 1;
   while (*play == 1)
   {
+    react_2048 = check_mat(mat);
+    if (react_2048 > 0)
+    {
+      printf("TEBRIKLER 2048'e ULASTINIZ!!!!\n");
+      end_game(mat, max_score, play);
+    }
     input = getchar();
     switch (input)
     {
