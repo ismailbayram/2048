@@ -216,6 +216,8 @@ int main()
       }
       fix_minus_numbers(mat);
       add_new_number(mat, 1);
+      if (*score > *max_score)
+        *max_score = *score;
       print_mat(mat, score, max_score);
     }
   }
