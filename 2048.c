@@ -9,7 +9,7 @@ void add_new_number(int mat[SIZE][SIZE], int number)
 {
   int i, j, k = 0;
   char fill, fill_2_or_4;
-  if (number < 2)
+  if (number < 2) // 1 den fazla sayi eklenmesi gerekiyor
   {
     for (i = 0; i < SIZE; i++)
     {
@@ -17,12 +17,12 @@ void add_new_number(int mat[SIZE][SIZE], int number)
       {
         if (mat[i][j] == 0 && k < 1)
         {
-          fill = rand() % 2;
-          fill_2_or_4 = rand() % 2;
+          fill = rand() % 2;        // dongude dolasilan elemana sayi atayip atamamak
+          fill_2_or_4 = rand() % 2; // 2 ya da 4
           if (fill == 1)
           {
             if (fill_2_or_4 == 1)
-              mat[i][j] = -4;
+              mat[i][j] = -4; // - ile veriyoruz cunku yeni atanan sayilarin digerlerinden farkli olmasi icin
             else
               mat[i][j] = -2;
             k++;
@@ -53,6 +53,7 @@ void add_new_number(int mat[SIZE][SIZE], int number)
 
 void print_mat(int mat[SIZE][SIZE], int *score, int *max_score)
 {
+  // matrisi yazdiriyoruz.
   int i, j;
   printf("\n ");
   for (j = 0; j < SIZE; j++)
@@ -88,6 +89,7 @@ void print_mat(int mat[SIZE][SIZE], int *score, int *max_score)
 
 void fix_minus_numbers(int mat[SIZE][SIZE])
 {
+  // negatif sayilari pozitif yapiyoruz
   int i, j;
 
   for (i = 0; i < SIZE; i++)
@@ -102,6 +104,7 @@ void fix_minus_numbers(int mat[SIZE][SIZE])
 
 void rotateMat(int mat[SIZE][SIZE])
 {
+  // matrisi orijin etrafinda -90 derece donduruyoruz
   int i, j, k, n = SIZE;
   for (i = 0; i < n / 2; i++)
   {
@@ -118,6 +121,7 @@ void rotateMat(int mat[SIZE][SIZE])
 
 void shift_numbers(int mat[SIZE][SIZE], int *score)
 {
+  // sagdan sola sayilari oteleyip eger ayni sayilar denk gelirse topluyoruz
   int i, j;
 
   for (i = 0; i < SIZE; i++)
@@ -175,6 +179,7 @@ void shift_numbers_to_B(int mat[SIZE][SIZE], int *score)
 
 void reset_mat(int mat[SIZE][SIZE], int *score, int *max_score)
 {
+  // matrisi ve skoru sifirliyoruz.
   int i, j;
   *score = 0;
   for (i = 0; i < SIZE; i++)
@@ -193,6 +198,7 @@ void reset_mat(int mat[SIZE][SIZE], int *score, int *max_score)
 
 int check_mat(int mat[SIZE][SIZE])
 {
+  // matristeki herhangi bir eleman 2048 e ulastiysa oyunu bitiriyoruz.
   int i, j, t = 0;
   for (i = 0; i < SIZE; i++)
   {
@@ -209,6 +215,7 @@ int check_mat(int mat[SIZE][SIZE])
 
 void end_game(int mat[SIZE][SIZE], int *max_score, int *play)
 {
+  // oyunu bitiriyoruz.
   *play = 0;
   printf("************\n");
   printf("OYUNU SONLANDI!\n");
@@ -220,12 +227,14 @@ void end_game(int mat[SIZE][SIZE], int *max_score, int *play)
 int main()
 {
   srand(time(NULL));
+  // tanimlamalar
   char input;
-  static int mat[SIZE][SIZE];
+  static int mat[SIZE][SIZE]; // statik olmasinin sebebi tum elemanlara 0 veriyoruz.
   int *score = malloc(sizeof(int)), *max_score = malloc(sizeof(int)), *play = malloc(sizeof(int)), react_2048 = 0;
   *score = 0;
   *max_score = 0;
 
+  // intro yazilari
   printf("2048'e hosgeldiniz.\n");
   printf("En Yuksek Puan : %d\n", *max_score);
   printf("Tus Bilgileri : \n");
@@ -234,6 +243,7 @@ int main()
   printf("- 'X' tusu ile en yuksek puani sifirlayip yeni bir oyuna baslayabilirsiniz.\n");
   printf("2018 - ismail bayram\n\n");
 
+  // matrisi baslatiyoruz ve ekrana yazdiriyoruz
   add_new_number(mat, 2);
   print_mat(mat, score, max_score);
 
@@ -241,7 +251,7 @@ int main()
   while (*play == 1)
   {
     react_2048 = check_mat(mat);
-    if (react_2048 > 0)
+    if (react_2048 > 0) // eger 2048 e ulasildiysa
     {
       printf("TEBRIKLER 2048'e ULASTINIZ!!!!\n");
       end_game(mat, max_score, play);
@@ -249,7 +259,7 @@ int main()
     input = getchar();
     switch (input)
     {
-    case '\033':
+    case '\033': // ok tuslarina ozel karakterleri yakalayip switch case e sokuyoruz
       getchar();
       switch (getchar())
       {
@@ -277,10 +287,6 @@ int main()
       break;
     case 101: // e
       end_game(mat, max_score, play);
-      break;
-    case 82: // R
-      break;
-    case 114: // r
       break;
     case 88: // X
       reset_mat(mat, score, max_score);
