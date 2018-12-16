@@ -173,12 +173,40 @@ void shift_numbers_to_B(int mat[SIZE][SIZE], int *score)
   rotateMat(mat);
 }
 
+void reset_mat(int mat[SIZE][SIZE], int *score, int *max_score)
+{
+  int i, j;
+  *score = 0;
+  for (i = 0; i < SIZE; i++)
+  {
+    for (j = 0; j < SIZE; j++)
+    {
+      mat[i][j] = 0;
+    }
+  }
+  printf("************\n");
+  printf("OYUN SIFIRLANDI!\n");
+  printf("************\n");
+  add_new_number(mat, 2);
+  print_mat(mat, score, max_score);
+}
+
+void end_game(int mat[SIZE][SIZE], int *max_score, int *play)
+{
+  *play = 0;
+  printf("************\n");
+  printf("OYUNU SONLANDIRDINIZ!\n");
+  printf("En Yuksek Puan : %d\n", *max_score);
+  printf("Tesekkurler, ismail bayram 2018\n");
+  printf("************\n");
+}
+
 int main()
 {
   srand(time(NULL));
   char input;
   static int mat[SIZE][SIZE];
-  int *score = malloc(sizeof(int)), *max_score = malloc(sizeof(int));
+  int *score = malloc(sizeof(int)), *max_score = malloc(sizeof(int)), *play = malloc(sizeof(int));
   *score = 0;
   *max_score = 0;
 
@@ -193,11 +221,13 @@ int main()
   add_new_number(mat, 2);
   print_mat(mat, score, max_score);
 
-  while (1)
+  *play = 1;
+  while (*play == 1)
   {
     input = getchar();
-    if (input == '\033')
+    switch (input)
     {
+    case '\033':
       getchar();
       switch (getchar())
       {
@@ -219,6 +249,25 @@ int main()
       if (*score > *max_score)
         *max_score = *score;
       print_mat(mat, score, max_score);
+      break;
+    case 69: // E
+      end_game(mat, max_score, play);
+      break;
+    case 101: // e
+      end_game(mat, max_score, play);
+      break;
+    case 82: // R
+      break;
+    case 114: // r
+      break;
+    case 88: // X
+      reset_mat(mat, score, max_score);
+      break;
+    case 120: // x
+      reset_mat(mat, score, max_score);
+      break;
+    default:
+      break;
     }
   }
   return 0;
