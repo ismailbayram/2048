@@ -224,12 +224,24 @@ void end_game(int mat[SIZE][SIZE], int *max_score, int *play)
   printf("************\n");
 }
 
+void assign_mat_to_prev(int mat[SIZE][SIZE], int prev_mat[SIZE][SIZE])
+{
+  int i, j;
+  for (i = 0; i < SIZE; i++)
+  {
+    for (j = 0; j < SIZE; j++)
+    {
+      prev_mat[i][j] = mat[i][j];
+    }
+  }
+}
+
 int main()
 {
   srand(time(NULL));
   // tanimlamalar
   char input;
-  static int mat[SIZE][SIZE]; // statik olmasinin sebebi tum elemanlara 0 veriyoruz.
+  static int mat[SIZE][SIZE], prev_mat[SIZE][SIZE]; // statik olmasinin sebebi tum elemanlara 0 veriyoruz.
   int *score = malloc(sizeof(int)), *max_score = malloc(sizeof(int)), *play = malloc(sizeof(int)), react_2048 = 0;
   *score = 0;
   *max_score = 0;
@@ -260,6 +272,7 @@ int main()
     switch (input)
     {
     case '\033': // ok tuslarina ozel karakterleri yakalayip switch case e sokuyoruz
+      assign_mat_to_prev(mat, prev_mat);
       getchar();
       switch (getchar())
       {
@@ -293,6 +306,12 @@ int main()
       break;
     case 120: // x
       reset_mat(mat, score, max_score);
+      break;
+    case 114: // r
+      print_mat(prev_mat, score, max_score);
+      break;
+    case 82: // R
+      print_mat(prev_mat, score, max_score);
       break;
     default:
       break;
