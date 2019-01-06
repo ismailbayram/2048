@@ -177,6 +177,19 @@ void shift_numbers_to_B(int mat[SIZE][SIZE], int *score)
   rotateMat(mat);
 }
 
+void assign_mat_to_prev(int mat[SIZE][SIZE], int prev_mat[SIZE][SIZE])
+{
+  // matrisin bir onceki durumunu atayan fonksiyon
+  int i, j;
+  for (i = 0; i < SIZE; i++)
+  {
+    for (j = 0; j < SIZE; j++)
+    {
+      prev_mat[i][j] = mat[i][j];
+    }
+  }
+}
+
 void reset_mat(int mat[SIZE][SIZE], int *score, int *max_score)
 {
   // matrisi ve skoru sifirliyoruz.
@@ -224,18 +237,6 @@ void end_game(int mat[SIZE][SIZE], int *max_score, int *play)
   printf("************\n");
 }
 
-void assign_mat_to_prev(int mat[SIZE][SIZE], int prev_mat[SIZE][SIZE])
-{
-  int i, j;
-  for (i = 0; i < SIZE; i++)
-  {
-    for (j = 0; j < SIZE; j++)
-    {
-      prev_mat[i][j] = mat[i][j];
-    }
-  }
-}
-
 int main()
 {
   srand(time(NULL));
@@ -271,8 +272,8 @@ int main()
     input = getchar();
     switch (input)
     {
-    case '\033': // ok tuslarina ozel karakterleri yakalayip switch case e sokuyoruz
-      assign_mat_to_prev(mat, prev_mat);
+    case '\033':                         // ok tuslarina ozel karakterleri yakalayip switch case e sokuyoruz
+      assign_mat_to_prev(mat, prev_mat); // onceki state i tutan matrise simdiki halini ata
       getchar();
       switch (getchar())
       {
